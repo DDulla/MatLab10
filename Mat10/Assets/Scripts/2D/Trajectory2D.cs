@@ -6,6 +6,14 @@ public class Trajectory2D : MonoBehaviour
     public int resolution = 30;
     public float gravity = -9.81f;
     public float timeStep = 0.1f;
+    public Transform shootPoint;
+    public float shootForce = 20f;
+
+    void Update()
+    {
+        Vector3 startVelocity = shootPoint.right * shootForce;
+        DrawTrajectory(shootPoint.position, startVelocity);
+    }
 
     public void DrawTrajectory(Vector3 startPosition, Vector3 startVelocity)
     {
@@ -16,8 +24,7 @@ public class Trajectory2D : MonoBehaviour
         {
             float x = startPosition.x + (startVelocity.x * time);
             float y = startPosition.y + (startVelocity.y * time) + (0.5f * gravity * time * time);
-
-            points[i] = new Vector3(x, y, startPosition.z); 
+            points[i] = new Vector3(x, y, startPosition.z);
 
             time += timeStep;
         }

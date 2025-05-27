@@ -3,24 +3,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerController2D : MonoBehaviour
 {
-    public float speed = 5f;
-    private Vector2 moveInput;
-    private Rigidbody rb;
+    public Transform bowTransform; 
+    public Transform shootPoint;   
 
-    void Awake()
+    void Update()
     {
-        rb = GetComponent<Rigidbody>();
-    }
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = transform.position.z; 
 
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-    }
+        Vector3 direction = (mousePos - shootPoint.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-    void FixedUpdate()
-    {
-        Vector3 move = new Vector3(moveInput.x, moveInput.y, 0); 
-        rb.linearVelocity = move * speed;
+        bowTransform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 }
-
